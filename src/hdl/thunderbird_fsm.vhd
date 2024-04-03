@@ -11,7 +11,7 @@
 --| ---------------------------------------------------------------------------
 --|
 --| FILENAME      : thunderbird_fsm.vhd
---| AUTHOR(S)     : Capt Phillip Warner, Capt Dan Johnson
+--| AUTHOR(S)     : Capt Phillip Warner, Capt Dan Johnson, C2C Alex Kenyon
 --| CREATED       : 03/2017 Last modified 06/25/2020
 --| DESCRIPTION   : This file implements the ECE 281 Lab 2 Thunderbird tail lights
 --|					FSM using enumerated types.  This was used to create the
@@ -36,18 +36,18 @@
 --|					can be changed by the inputs
 --|					
 --|
---|                 xxx State Encoding key
+--|                 Binary State Encoding key
 --|                 --------------------
 --|                  State | Encoding
 --|                 --------------------
---|                  OFF   | 
---|                  ON    | 
---|                  R1    | 
---|                  R2    | 
---|                  R3    | 
---|                  L1    | 
---|                  L2    | 
---|                  L3    | 
+--|                  OFF   | 000
+--|                  ON    | 001
+--|                  R1    | 010
+--|                  R2    | 011
+--|                  R3    | 100
+--|                  L1    | 101
+--|                  L2    | 110
+--|                  L3    | 111
 --|                 --------------------
 --|
 --|
@@ -86,23 +86,51 @@ library ieee;
   use ieee.numeric_std.all;
  
 entity thunderbird_fsm is 
-  port(
-	
-  );
+  port (
+        i_clk, i_reset  : in    std_logic;
+        i_left, i_right : in    std_logic;
+        o_lights_L      : out   std_logic_vector(2 downto 0);
+        o_lights_R      : out   std_logic_vector(2 downto 0)
+    );
 end thunderbird_fsm;
 
 architecture thunderbird_fsm_arch of thunderbird_fsm is 
 
 -- CONSTANTS ------------------------------------------------------------------
-  
+signal f_Q      : std_logic_vector(2 downto 0):= "000";
+signal f_Q_next : std_logic_vector(2 downto 0):= "000"; 
 begin
 
 	-- CONCURRENT STATEMENTS --------------------------------------------------------	
-	
+f_Q_next <= "000" when (((f_Q = "000")and i_left = '0' and i_right = '0') or 
+                        (f_Q = "001") or
+                        (f_Q = "100") or
+                        (f_Q = "111"))else
+"010" when ((f_Q = "000") and i_right = '1' and i_left = '0')else
+"011" when (f_Q = "010") else
+"100" when (f_Q = "011")else
+"101" when ((f_Q = "000") and i_right = '0' and i_left = '1')else
+"110" when (f_Q = "101")else
+"111" when (f_Q = "110")else
+"001" when ((f_Q = "000") and i_right = '1' and i_left = '1');
+
+o_lights_R(0) <= '1' when (f_Q = "010" or f_Q = "011" or f_Q = "100" or f_Q = "001")else '0';
+o_lights_R(1) <= '1' when (f_Q = "011" or f_Q = "100" or f_Q = "001") else '0';
+o_lights_R(2) <= '1' when (f_Q = "100" or f_Q = "001") else '0';
+o_lights_L(0) <= '1' when (f_Q = "101" or f_Q = "110" or f_Q = "111" or f_Q = "001") else '0';
+o_lights_L(1) <= '1' when (f_Q = "110" or f_Q = "111" or f_Q = "001") else '0';
+o_lights_L(2) <= '1' when (f_Q = "111" or f_Q = "001") else '0';
     ---------------------------------------------------------------------------------
 	
 	-- PROCESSES --------------------------------------------------------------------
-    
+register_proc : process (i_clk, i_reset)
+begin
+if i_reset = '1' then
+f_Q <= "000";
+elsif (rising_edge(i_clk)) then
+f_Q <= f_Q_next;
+end if;
+end process register_proc;    
 	-----------------------------------------------------					   
 				  
 end thunderbird_fsm_arch;

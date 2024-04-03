@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="thunderbird_fsm_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="thunderbird_fsm_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="50600001fs"></ZoomEndTime>
+      <Cursor1Time time="50000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="116"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="5" />
+   <wvobject fp_name="/thunderbird_fsm_tb/w_sw" type="array">
+      <obj_property name="ElementShortName">w_sw[1:0]</obj_property>
+      <obj_property name="ObjectShortName">w_sw[1:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/thunderbird_fsm_tb/w_reset" type="logic">
+      <obj_property name="ElementShortName">w_reset</obj_property>
+      <obj_property name="ObjectShortName">w_reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/thunderbird_fsm_tb/w_clk" type="logic">
+      <obj_property name="ElementShortName">w_clk</obj_property>
+      <obj_property name="ObjectShortName">w_clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/thunderbird_fsm_tb/w_led" type="array">
+      <obj_property name="ElementShortName">w_led[5:0]</obj_property>
+      <obj_property name="ObjectShortName">w_led[5:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject fp_name="/thunderbird_fsm_tb/TEN_NS" type="other">
+      <obj_property name="ElementShortName">TEN_NS</obj_property>
+      <obj_property name="ObjectShortName">TEN_NS</obj_property>
+   </wvobject>
+</wave_config>
